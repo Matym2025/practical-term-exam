@@ -45,7 +45,7 @@ Desde la raíz del proyecto, con el entorno virtual activado:
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 La API quedará accesible en: http://127.0.0.1:8000/
-**ENDPOINTS DETECTADOS**
+/n**ENDPOINTS DETECTADOS**
 - `GET /`  
   Root
 
