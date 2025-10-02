@@ -34,4 +34,35 @@ Se recomienda crear un entorno virtual:
 python -m venv venv
 venv\Scripts\Activate.ps1
 ```
+**Instalar dependencias**
+``` bash 
+pip install -r requirements.txt
+```
+**Cómo ejecutar la API**
 
+Desde la raíz del proyecto, con el entorno virtual activado:
+``` bash 
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+La API quedará accesible en: http://127.0.0.1:8000/
+**ENDPOINTS DETECTADOS**
+- `GET /`  
+  Root
+
+- `POST /users`  
+  Crear usuario — Body: `username`, `password`, `email?`, `is_active?`
+
+- `GET /users`  
+  Listar usuarios (devuelve datos "seguros" sin la contraseña)
+
+- `GET /users/{user_id}`  
+  Obtener usuario por id
+
+- `PUT /users/{user_id}`  
+  Actualizar usuario — Campos: `username`, `email`, `is_active`
+
+- `DELETE /users/{user_id}`  
+  Eliminar usuario
+
+- `POST /login`  
+  Login con `username` + `password`
