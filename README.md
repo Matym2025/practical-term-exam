@@ -14,12 +14,14 @@ Este repositorio contiene una API REST (FastAPI) para manejo básico de usuarios
 ---
 
 ## Estructura (actual)
-
+```
 practical-term-exam/
 ├── main.py
 ├── brute.sh
 ├── requirements.txt
 └── (otros archivos opcionales)
+```
+
 ## Requisitos y preparación
 
 - **Python** 3.10+  
