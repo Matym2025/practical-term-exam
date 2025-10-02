@@ -87,7 +87,7 @@ La API quedará accesible en: http://127.0.0.1:8000/
 
 > **Advertencia:** Este script fue utilizado unicamente con fines educativos, hacer el mismo proceso con equipos de terceros seria considerado algo ilegal
 
-### Versión original (la que viene en el repo)
+### Versión final brute.sh
 
 ```bash
 API="http://127.0.0.1:8000/login"
@@ -116,3 +116,54 @@ done
 end=$(date +%s)
 echo "NO encontrada tras $attempts intentos en $((end-start))s"
 exit 1
+```
+## Cómo funciona `brute.sh`
+
+`brute.sh` es un script de prueba pensado para entornos locales. Su objetivo es automatizar intentos de login usando una lista de contraseñas (wordlist) para comprobar la lógica de autenticación y bloqueo de la API.
+
+**Resumen del flujo:**
+1. Define la URL del endpoint de login (`API`) y el usuario objetivo (`USER`).
+2. Define un `WORDLIST` con posibles contraseñas.
+3. Recorre cada contraseña:
+   - Envía una petición `POST` con `curl` al endpoint `/login`.
+   - Lee la respuesta (JSON) y comprueba si contiene la cadena/valor que indica éxito (`"login successful"`) o si hay un campo de bloqueo (`retry_after`).
+   - Muestra en consola el intento actual y el resultado parcial.
+4. Si encuentra la contraseña correcta, muestra el tiempo total y termina. Si no la encuentra, informa que no se encontró tras todos los intentos.
+
+**Variables importantes dentro del script:**
+- `API` — URL del endpoint (ej. `http://127.0.0.1:8000/login`)
+- `USER` — nombre de usuario objetivo
+- `WORDLIST` — arreglo con las contraseñas a probar
+- `attempts` — contador de intentos
+- `start` / `end` — tiempo de inicio/fin para medir duración
+
+**Advertencia:** usar solo en entornos locales y con cuentas de prueba. Hacer fuerza bruta contra sistemas de terceros es ilegal.
+
+---
+
+## Uso (rápido)
+
+Dar permisos y ejecutar:
+```bash
+chmod +x brute.sh
+./brute.sh
+```
+### Ejemplo de salida en consola
+
+#### 1) Contraseña encontrada
+[1] Probando 'matym123' -> {"message":"Invalid credentials"}
+[2] Probando 'hola123' -> {"message":"Invalid credentials"}
+[3] Probando 'adios546' -> {"message":"login successful"}
+ENCONTRADA: password='adios546' en 3 intentos, 1s
+#### 2) Contraseña no encontrada
+[1] Probando 'matym123' -> {"message":"Invalid credentials"}
+[2] Probando 'hola123' -> {"message":"Invalid credentials"}
+[3] Probando 'adios546' -> {"message":"Invalid credentials"}
+[4] Probando 'arroz123' -> {"message":"Invalid credentials"}
+[5] Probando 'pollo123' -> {"message":"Invalid credentials"}
+[6] Probando 'loco456' -> {"message":"Invalid credentials"}
+[7] Probando 'hello123' -> {"message":"Invalid credentials"}
+[8] Probando 'maty123' -> {"message":"Invalid credentials"}
+NO encontrada tras 8 intentos en 2s
+
+
