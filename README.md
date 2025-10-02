@@ -151,11 +151,14 @@ chmod +x brute.sh
 ### Ejemplo de salida en consola
 
 #### 1) Contraseña encontrada
+```
 [1] Probando 'matym123' -> {"message":"Invalid credentials"}
 [2] Probando 'hola123' -> {"message":"Invalid credentials"}
 [3] Probando 'adios546' -> {"message":"login successful"}
 ENCONTRADA: password='adios546' en 3 intentos, 1s
+```
 #### 2) Contraseña no encontrada
+```
 [1] Probando 'matym123' -> {"message":"Invalid credentials"}
 [2] Probando 'hola123' -> {"message":"Invalid credentials"}
 [3] Probando 'adios546' -> {"message":"Invalid credentials"}
@@ -165,5 +168,5 @@ ENCONTRADA: password='adios546' en 3 intentos, 1s
 [7] Probando 'hello123' -> {"message":"Invalid credentials"}
 [8] Probando 'maty123' -> {"message":"Invalid credentials"}
 NO encontrada tras 8 intentos en 2s
-
+```
 
