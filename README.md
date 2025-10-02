@@ -34,6 +34,7 @@ Se recomienda crear un entorno virtual:
 ``` bash
 python -m venv venv
 venv\Scripts\Activate.ps1
+py -m pip install --upgrade pip
 ```
 **Instalar dependencias**
 ``` bash 
